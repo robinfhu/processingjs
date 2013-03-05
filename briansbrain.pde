@@ -15,6 +15,7 @@ int WORLD_B[][];
 int RULE_SURVIVE[];
 int RULE_BIRTH[];
 int RULE_GENS;
+int MAX_GENS = 20;
 
 color STATE_COLORS[];
 
@@ -36,7 +37,7 @@ void setup() {
 		}
 	}
 
-	STATE_COLORS = { color(0), color(0) };
+	STATE_COLORS = { color(255), color(240,200,40) };
 	for(int i=0; i < 20; i++) {
 		append(STATE_COLORS, color( random(0,250), random(0,250), random(0,250)));
 	}
@@ -47,7 +48,7 @@ void setup() {
 
 //Main draw loop. Is called continuously.
 void draw() {
-	background(230,230,255);
+	background(0);
 	//This loop renders the pixels on the canvas.
 	////Depending on the state of a cell, a different colored pixel is generated.
 	for(int x=0; x < PWIDTH; x++) {
@@ -123,6 +124,15 @@ int calcNeighbors(int x,int y) {
 	return totalSum;
 }
 
+//Sets all cells to zero state.
+void clearWorld() {
+	for(int x=0; x < PWIDTH; x++) {
+		for(int y=0; y < PHEIGHT; y++) {
+			WORLD_B[x][y] = 0;
+		}
+	}
+}
+
 /* This places a square point somewhere on the canvas, at location X,Y.
  * */
 void drawPoint(int x, int y, color c) {
@@ -145,16 +155,35 @@ void parseRule( String rule ) {
 
 	int[] surviveList = split(parts[0], "");
 	int[] birthList = split(parts[1], "");
-	RULE_GENS = int(parts[2]);
+	int generations = int(parts[2]);
+	if (generations < 2) {
+		println("Cannot have rule where the number of generations is less than 2.");
+		return;
+	}
+	RULE_GENS = min(MAX_GENS, int(parts[2]));
 
 	RULE_SURVIVE = {};
 	RULE_BIRTH = {};
+	//Apply rules to global variables.
 	for(int i=0; i < surviveList.length; i++) {
 		append(RULE_SURVIVE, surviveList[i]);
 	}
 
 	for(int i=0; i < birthList.length; i++) {
 		append(RULE_BIRTH, birthList[i]);
+	}
+
+	//Special case where if the # of generations is 2.
+	//There will be cells left that are in state, 2,3,4, etc.
+	//Remove those cells as they are not needed.
+	if (RULE_GENS == 2) {
+		for(int x=0; x < PWIDTH; x++) {
+			for(int y=0; y < PHEIGHT; y++) {
+				if (WORLD_B[x][y] > 1) {
+					WORLD_B[x][y] = 0;
+				}
+			}
+		}
 	}
 
 }
@@ -175,8 +204,9 @@ void mouseDragged() {
 	int xPosPrev = ceil(pmouseX / PIXEL_WIDTH);
 	int yPosPrev = ceil(pmouseY / PIXEL_WIDTH);
 
-	WORLD_B[xPos][yPos] = 1;
-	WORLD_B[xPos+1][yPos] = 1;
-	WORLD_B[xPos][yPos+1] = 1;
-	WORLD_B[xPosPrev][yPosPrev] = 1;
+	int pixelType = (mouseButton == LEFT) ? 1 : 0;
+	WORLD_B[xPos][yPos] = pixelType;
+	WORLD_B[xPos+1][yPos] = pixelType;
+	WORLD_B[xPos][yPos+1] = pixelType;
+	WORLD_B[xPosPrev][yPosPrev] = pixelType;
 }
