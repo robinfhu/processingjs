@@ -5,7 +5,7 @@
 //Globals
 int CANVAS_WIDTH = 800;	
 int CANVAS_HEIGHT = 600;
-int PIXEL_WIDTH = 3;	//specify how big you want each pixel.
+int PIXEL_WIDTH = 2;	//specify how big you want each pixel.
 int PWIDTH = ceil(CANVAS_WIDTH/PIXEL_WIDTH);
 int PHEIGHT = ceil(CANVAS_HEIGHT/PIXEL_WIDTH);
 
@@ -18,23 +18,19 @@ color STATE_COLORS[];
 void setup() {
 	size(CANVAS_WIDTH, CANVAS_HEIGHT);
 	noStroke();
-	frameRate(30);
+	frameRate(60);
 
 	//Initialize memory array where we will store the grid data.
 	WORLD_A = new int[PWIDTH][PHEIGHT];
 	WORLD_B = new int[PWIDTH][PHEIGHT];
 
 	//Randomize the grid in the beginning.
-	/*for(int x=0; x<PWIDTH; x++) {
+	for(int x=0; x<PWIDTH; x++) {
 		for(int y=0; y<PHEIGHT; y++) {
-			if ( random(0,100) > 50)
+			if ( random(0,100) > 90)
 			    WORLD_B[x][y]=1;
 		}
-	}*/
-	WORLD_B[40][40] = 1;
-	WORLD_B[40][41] = 1;
-	WORLD_B[39][40] = 1;
-	WORLD_B[39][41] = 1;
+	}
 
 	STATE_COLORS = { color(0), color(0), color(130,130,250), color(250,100,100), color(250,250,30)};
 }
