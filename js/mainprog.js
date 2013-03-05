@@ -22,6 +22,10 @@ var initEventHandlers = function() {
 	$("#btn_clear").click(function() {
 		getProcessingInstance().clearWorld();
 	});
+	
+	$("#btn_random").click(function() {
+		getProcessingInstance().randomizeWorld();
+	});
 
 	$("#txt_rule").keydown(function(evt) {
 		if (evt.which === 13) {

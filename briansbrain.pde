@@ -133,6 +133,16 @@ void clearWorld() {
 	}
 }
 
+//Randomly add pixels to the world
+void randomizeWorld() {
+	for(int x=0; x < PWIDTH; x++) {
+		for(int y=0; y < PHEIGHT; y++) {
+			WORLD_B[x][y] = (random(0,100) > 50) ? 1 : 0;
+		}
+	}
+
+}
+
 /* This places a square point somewhere on the canvas, at location X,Y.
  * */
 void drawPoint(int x, int y, color c) {
