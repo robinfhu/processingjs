@@ -23,7 +23,7 @@
 	<div class='container'>
 		<?php echo $YIELD; ?>
 	</div>
-	<div class='footnote'>
+	<div class='footnote text-center'>
 		<small>&copy; Robin Hu. All Rights Reserved.</small>
 	</div>
 </body>

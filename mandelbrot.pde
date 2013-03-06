@@ -17,7 +17,7 @@ void setup() {
 	YLEN = (height/width) * XLEN;
 	YMAX = YLEN / 2;
 	YMIN = -YMAX;
-	background(0);
+	background(50);
 	mandel();
 }
 
@@ -38,11 +38,13 @@ void mandel() {
 		float zReal = cReal;
 		float zImg = cImg;
 		int iterations = 0;
+		float zModulus = 0;
 		while (iterations < MAX_ITERS) {
 			float zRealSq = zReal * zReal;
 			float zImgSq = zImg * zImg;
 			
 			if ( zRealSq + zImgSq > 4.0f) {
+				zModulus = zRealSq + zImgSq;
 				break;
 			}
 			float twoAB = 2.0 * zReal * zImg;
@@ -56,11 +58,38 @@ void mandel() {
 			pixels[ pixelIndex ] = 0;
 		}
 		else {
-			pixels[ pixelIndex] = color(iterations * 16 % 255);
+			//pixels[ pixelIndex] = color(iterations % 255);
+
+			int smoothColor =  (iterations + 1 - log(log(zModulus)) / log(2));
+			if (smoothColor > 255) {
+				smoothColor = abs(255 - (smoothColor - 255)) % 255;
+			}
+			//int smoothColor = iterations % 255;
+			pixels[pixelIndex] = color(0,smoothColor /2, smoothColor);
 		}
 
 
 	    }
 	}
 	updatePixels();
+}
+
+void mouseClicked() {
+	float xFactor = (XLEN / width);
+	float yFactor = -(YLEN / height);
+
+	float xPos = xFactor * mouseX + XMIN;
+	float yPos = yFactor * mouseY + YMAX;
+
+	float zoomFactor = 0.3125;
+	MAX_ITERS = int(MAX_ITERS * 1.1);
+	YLEN = YLEN * zoomFactor;
+	XLEN = XLEN * zoomFactor;
+
+	XMIN = xPos - XLEN / 2;
+	XMAX = xPos + XLEN / 2;
+	YMIN = yPos - YLEN / 2;
+	YMAX = yPos + YLEN / 2;
+
+	mandel();
 }

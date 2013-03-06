@@ -1,6 +1,6 @@
 <?php 
 $YIELD = <<< HTML
-<script src="js/mainprog.js"></script>
+<script src="js/cellular_main.js"></script>
 <h1>Cellular automata in Processing.js</h1>
 
 		<div class='program_canvas'>
@@ -18,7 +18,7 @@ $YIELD = <<< HTML
 
 
 			<p/>
-			<canvas id='main_canvas' data-processing-sources="briansbrain.pde"></canvas>	
+			<canvas id='main_canvas' data-processing-sources="cellular.pde"></canvas>	
 		</div>
 
 		<h3>How to use</h3>
