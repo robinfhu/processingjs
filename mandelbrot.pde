@@ -98,9 +98,15 @@ void mandel() {
 }
 
 void mouseClicked() {
-	PLOT.zoom(0.3125);
-	$("#txt_iterations").val(PLOT.maxIters);
-	startRender();
+	if (mouseButton == LEFT) {
+		PLOT.zoom(0.3125);
+		$("#txt_iterations").val(PLOT.maxIters);
+		startRender();
+	}
+	else if (mouseButton == RIGHT) {
+		PLOT.pan();
+		startRender();
+	}
 }
 
 //Class that handles the coordinate system
@@ -143,5 +149,15 @@ class MandelCoordinates {
 		xmax = xPos + xlen / 2;
 		ymin = yPos - ylen / 2;
 		ymax = yPos + ylen / 2;
+	}
+
+	void pan() {
+		float xPos = xfactor(width) * mouseX + xmin;
+		float yPos = yfactor(height) * mouseY + ymax;
+		xmin = xPos - xlen / 2;
+		xmax = xPos + xlen / 2;
+		ymin = yPos - ylen / 2;
+		ymax = yPos + ylen / 2;
+
 	}
 }
