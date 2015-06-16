@@ -21,6 +21,7 @@
 
 				<div class='nav-collapse collapse'>
 					<ul class='nav'>
+						<li><a href='forest-d3/'>Charting Library</a></li>
 						<li><a href='index.php'>Cellular Automata</a></li>
 						<li><a href='coins.php'>Change Calculator</a></li>
 						<li><a href='mandelbrot.php'>Mandelbrot</a></li>
